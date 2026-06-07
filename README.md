@@ -5,18 +5,25 @@
 ## 目录结构
 
 ```
-zhiyuan-skills/
+zhiyuanskill-yw/
 ├── README.md                       # 本文件
 ├── CHANGELOG.md                    # 变更记录
-├── zhiyuanskill-yw/                # 汇总索引Skill
-│   ├── SKILL.md
-│   ├── agents/openai.yaml
-│   └── references/
-│       ├── zhiyuan-sources.md
-│       ├── cap4-guide.md
-│       ├── api-integration.md
-│       └── jsp-guide.md
-├── skills/                         # 独立子技能（按功能拆分，持续补充）
+├── SKILL.md                        # 汇总Skill（入口）
+├── .gitignore
+├── agents/
+│   └── openai.yaml                 # Agent配置
+└── references/                     # 参考文档
+    ├── zhiyuan-sources.md          # 官方文档索引 + API速查
+    ├── cap4-guide.md               # CAP4表单操作指南
+    ├── api-integration.md          # 第三方API集成模式
+    ├── jsp-guide.md                # JSP维护页面模板
+    └── bpm-event-guide.md          # 流程事件开发完整指南
+```
+
+## 规划中的目录（后续补充）
+
+```
+├── skills/                         # 独立子技能（精细化拆分）
 │   ├── ctp-new-plugin/             # 新建插件规范
 │   ├── ctp-cap4-form/              # CAP4表单操作
 │   ├── ctp-event-listener/         # 事件监听
@@ -26,7 +33,7 @@ zhiyuan-skills/
 │   ├── ctp-jsp-page/               # JSP维护页面
 │   ├── ctp-sso/                    # SSO单点登录
 │   └── ctp-db-access/              # 数据访问
-└── templates/                      # 代码模板
+└── templates/                      # 代码模板（可直接复制）
 ```
 
 ## 使用方式
