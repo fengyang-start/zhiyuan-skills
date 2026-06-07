@@ -17,7 +17,8 @@ zhiyuanskill-yw/
     ├── cap4-guide.md               # CAP4表单操作指南
     ├── api-integration.md          # 第三方API集成模式
     ├── jsp-guide.md                # JSP维护页面模板
-    └── bpm-event-guide.md          # 流程事件开发完整指南
+    ├── bpm-event-guide.md          # 流程事件开发完整指南
+    └── seeyonapi-event-index.md    # SeeyonAPI 8.2 事件完整索引(20模块180+事件)
 ```
 
 ## 规划中的目录（后续补充）
