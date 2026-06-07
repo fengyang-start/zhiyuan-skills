@@ -8,9 +8,116 @@
 
 | 机制 | 作用域 | 绑定方式 | 适用场景 |
 |------|--------|---------|---------|
-| **AbstractWorkflowEvent** | 单个流程模板 | 流程设计器中选择 | 特定表单/模板的审批后处理 |
-| **@ListenEvent** | 全局所有流程 | 注解 + Spring Bean | 通用监听、待办推送等 |
-| **前端事件拦截** | 前端交互 | `$.ctp.bind()` | 发送前校验、UI拦截 |
+| **EVENT底层机制** | 平台底层 | `EventDispatcher.fireEvent()` | 组织变更、系统级事件 |
+| **AbstractWorkflowEvent** | 单个流程模板 | 流程设计器中选择 | 特定表单审批后处理 |
+| **@ListenEvent** | 全局 | 注解 + Spring Bean | 通用监听、待办推送 |
+| **前端事件拦截** | 浏览器端 | `$.ctp.bind()` | 发送前校验、UI拦截 |
+
+---
+
+## 〇、EVENT事件底层机制
+
+### 0.1 设计原理
+
+采用 Observable+Observer 模式，基于 `java.util.EventObject`，**注解驱动、无需注册监听、异步分发、易扩展**。
+
+```
+标准产品侧                           需求方（客开）
+  │                                      │
+  │  1. 定义Event类                      │
+  │     (extends Event)                  │
+  │                                      │
+  │  2. 发布Event                         │
+  │     EventDispatcher.fireEvent()  ──→  │  3. 监听Event
+  │     fireEventWithException()          │     @ListenEvent(event=xxx)
+  │     fireEventAfterCommit()            │     执行业务逻辑
+```
+
+### 0.2 定义Event
+
+```java
+public class AddMemberEvent extends Event {
+    private V3xOrgMember member;
+    private boolean isBatch = false;
+
+    public AddMemberEvent(Object source) { super(source); }
+
+    public V3xOrgMember getMember() { return member; }
+    public void setMember(V3xOrgMember member) { this.member = member; }
+    public boolean isBatch() { return isBatch; }
+    public void setBatch(boolean isBatch) { this.isBatch = isBatch; }
+}
+```
+
+### 0.3 发布Event（三种模式）
+
+```java
+// 模式1：立即触发，异常只记日志不抛出
+EventDispatcher.fireEvent(event);
+
+// 模式2：立即触发，异常会抛出供发布者捕获
+EventDispatcher.fireEventWithException(event);
+
+// 模式3：事务提交成功后触发，事务回滚则不触发
+EventDispatcher.fireEventAfterCommit(event);
+```
+
+### 0.4 监听Event
+
+```java
+public class OrganizationListener {
+
+    @ListenEvent(event = AddMemberEvent.class, async = true)
+    public void addMember(AddMemberEvent event) {
+        V3xOrgMember member = event.getMember();
+        thirdPartyApi.syncMember(member, "add");
+    }
+
+    @ListenEvent(event = UpdateMemberEvent.class, async = true)
+    public void updateMember(UpdateMemberEvent event) {
+        V3xOrgMember member = event.getMember();
+        if (member.isValid()) {
+            thirdPartyApi.syncMember(member, "update");
+        } else {
+            thirdPartyApi.syncMember(member, "del");
+        }
+    }
+
+    @ListenEvent(event = DeleteMemberEvent.class, async = true)
+    public void deleteMember(DeleteMemberEvent event) {
+        thirdPartyApi.syncMember(event.getMember(), "del");
+    }
+}
+```
+
+### 0.5 @ListenEvent 注解完整定义
+
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD })
+@Inherited
+public @interface ListenEvent {
+    Class event();           // 监听的事件类型（必填）
+
+    boolean async() default false;  // true=异步, false=同步。推荐true
+
+    @Deprecated
+    EventTriggerMode mode()         // 已废弃，不推荐使用
+        default EventTriggerMode.immediately;
+
+    int order() default 0;          // 执行顺序(V7.1+)，越小越先执行
+}
+```
+
+### 0.6 产品标准Event接口
+
+详见 SeeyonAPI：https://open.seeyoncloud.com/seeyonapi/8.2/event/
+
+### 0.7 常见问题
+
+**Listener获取不到 AppContext.currentUser()**
+→ 用户掉线/离线状态，或当前是异步线程执行。
 
 ---
 
