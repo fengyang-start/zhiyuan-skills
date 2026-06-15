@@ -148,7 +148,7 @@ public class XmlApiService {
 }
 ```
 
-### JSON REST API（如Odoo/金蝶云）
+### JSON REST API（通用第三方REST系统）
 ```java
 public class JsonApiClient {
     // 1. 登录获取session/token

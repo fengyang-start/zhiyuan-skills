@@ -1,5 +1,21 @@
 # 变更记录
 
+## [0.5.0] - 2026-06-08
+
+### 新增
+- `references/super-node-guide.md` — 超级节点开发指南
+  - BaseSuperNodeAction完整模板
+  - 轻量级超级节点抽象模式
+  - SuperNodeResponse返回值规范
+  - 从超级节点参数获取CAP4表单数据
+  - Spring XML注册、服务层推送、日志与容错规范
+- `references/cap4-field-converter-guide.md` — CAP4字段取值与转换器指南
+  - 根据中文数据域/字段显示名取值
+  - 获取field0012等真实字段编码
+  - 主表/子表/多子表处理
+  - 动态字段映射设计
+  - 枚举编码/显示值、多选枚举、人员/单位编码、附件URL/文件名/列表等转换器
+
 ## [0.4.0] - 2026-06-08
 
 ### 新增

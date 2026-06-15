@@ -478,6 +478,8 @@ apps_res/cap/customCtrlResources/<controlId>/
 | `references/bpm-event-guide.md` | **流程事件开发完整指南** — AbstractWorkflowEvent + @ListenEvent + 前端拦截 |
 | `references/seeyonapi-event-index.md` | **SeeyonAPI 8.2 事件完整索引** — 20模块、180+事件速查 |
 | `references/org-architecture-guide.md` | **组织架构开发完整指南** — 39事件 + REST同步 + 平台API |
+| `references/super-node-guide.md` | **超级节点开发指南** — BaseSuperNodeAction + 轻量节点抽象 + 返回值规范 |
+| `references/cap4-field-converter-guide.md` | **CAP4字段取值与转换器指南** — 中文字段取值 + 枚举/组织/附件转换 |
 
 ## 注意事项
 

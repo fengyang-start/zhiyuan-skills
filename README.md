@@ -19,7 +19,9 @@ zhiyuanskill-yw/
     ├── jsp-guide.md                # JSP维护页面模板
     ├── bpm-event-guide.md          # 流程事件开发完整指南
     ├── seeyonapi-event-index.md    # SeeyonAPI 8.2 事件完整索引(20模块180+事件)
-    └── org-architecture-guide.md   # 组织架构开发完整指南(39事件+REST同步)
+    ├── org-architecture-guide.md   # 组织架构开发完整指南(39事件+REST同步)
+    ├── super-node-guide.md         # 超级节点开发指南(BaseSuperNodeAction)
+    └── cap4-field-converter-guide.md # CAP4字段取值与转换器指南
 ```
 
 ## 规划中的目录（后续补充）
